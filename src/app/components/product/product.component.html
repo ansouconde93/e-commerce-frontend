@@ -1,0 +1,94 @@
+  
+<div fxLayout ="row wrap" fxLayoutGap ="16px grid" *ngIf="categories!= null && categories != undefined"> 
+  <div class="barCategory"> 
+    <form class="formPosition">      
+      <button mat-button class="dispoPromotion" 
+      (click)="getAllCategories()">All</button>
+      <button mat-button class="dispoPromotion" 
+      (click)="filterProductsByAvailablePromotionSelected(1)">Disponible</button>
+      <button mat-button class="dispoPromotion" 
+      (click)="filterProductsByAvailablePromotionSelected(2)">Promotion</button>
+      <button mat-button class="dispoPromotion" 
+        (click)="filterProductsByAvailablePromotionSelected(3)">Populaire</button>
+      <mat-form-field>
+        <input matInput type="text" name="name" [(ngModel)] = "keyword">
+          <mat-icon matSuffix (click)="searchProductByKeyWord()" style="cursor: pointer;">search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div fxFlex="100%" fxFlex.xs="100%" fxFlex.sm="100%" *ngFor="let category of categories">
+    <button mat-button class="category"
+      (click) ="goToDetailCategory(category)"> {{category.name}} </button>
+    
+    <div *ngIf="category.products != null && category.products != undefined"
+    fxLayout ="row wrap" fxLayoutGap ="16px grid">
+          <div fxFlex="20%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let prod of category.products"> 
+            <mat-card >
+              <!--<mat-card-header>
+                <mat-card-title>{{prod.name}}</mat-card-title>
+              </mat-card-header>-->
+                  <img mat-card-image class="taille" 
+                    (click)="detailProduit(prod.idproduct)"
+                    src="{{this.eCommService.host+'/product/photo/'+prod.idproduct+'?ts='+productManipulationService.getTS()}}"
+                    alt="photo du produit">
+                  <span *ngIf="authenticationService.isAdmin" class="material-icons edit" 
+                    (click) = "productManipulationService.editerPhoto(prod)">launch
+                  </span>        
+                  <p *ngIf ="productManipulationService.editePhoto == true && productManipulationService.produitCourant == prod">
+                    <input type="file" (change) ="productManipulationService.selectedFile($event)">
+                    <button mat-raised-button color="primary" 
+                    *ngIf="productManipulationService.electFiles != undefined && productManipulationService.uploadBnt==1" 
+                    (click) = "productManipulationService.uploadPhoto()">Upload</button>
+                  </p>
+              <mat-card-content>
+                <table>
+                  <tr>
+                    <td colspan ="2"><b>Prix</b></td>
+                    <td colspan ="2"><b>{{prod.price| number:'0.3'}} </b></td>                
+                  </tr>              
+                  <tr>
+                    <td *ngIf="prod.promotion">
+                      <img src="../../../assets/images/promo.png" title="En promotion">
+                    </td>
+                    <td *ngIf="prod.selected">
+                      <img src="../../../assets/images/favorite.png" title="Favorit">
+                    </td>
+                    <td *ngIf="prod.avaible" style="text-align: left;">
+                      <img src="../../../assets/images/available.png" title="Disponible">
+                    </td>                
+                    <td>
+                      <mat-icon style="color: #008080;cursor: pointer;"
+                        title="Voir en détail" 
+                        (click)="detailProduit(prod.idproduct)">visibility
+                      </mat-icon>
+                    </td>
+                  </tr>
+                </table>                 
+              </mat-card-content>
+              <mat-card-actions>
+                <form #f ="ngForm">
+                  <table>
+                    <tr>
+                      <td>
+                        <mat-form-field style="width: 35%;" appearance="fill">
+                            <mat-label>Quantité</mat-label>
+                            <input type="number" matInput name="quantite" min="1" ngModel [(ngModel)]="prod.quantite">
+                        </mat-form-field>&nbsp;
+                        <button mat-button style="cursor: pointer;"
+                            (click) = "productManipulationService.addCard(prod)">
+                            <span class="material-icons"
+                                style="color: #303F9F; font-weight: bold;">
+                                add_shopping_cart
+                            </span>
+                        </button>
+                    </td>
+                    </tr>  
+                  </table>   
+                </form> 
+              </mat-card-actions>
+            </mat-card>
+          </div>       
+    </div>
+  </div>
+</div>

@@ -1,0 +1,323 @@
+<mat-card class="product-detail-card" *ngIf="actionToDo ==0 && productToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Edit this product" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(1)">
+            <span class="material-icons edit">launch</span>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Add new product" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(2)">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Delete this product" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(3)">
+            <mat-icon>delete</mat-icon>
+        </button>&nbsp;
+        {{productToDetail.name}}
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content>      
+        <div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.md="column">
+            <mat-card class="child-1 maxTailleImage">
+                <img mat-card-image (click)="goToHomePage()" class="imageTaille"
+                    src="{{this.eCommService.host+'/product/photo/'+productToDetail.idproduct+'?ts='+productManipulationService.getTS()}}"
+                    alt="photo du produit" style="cursor: pointer;">
+                <button mat-button *ngIf="authenticationService.isAdmin"
+                    title="Edit this photo" 
+                    style="cursor: pointer;"
+                    (click) = "productManipulationService.editerPhoto(productToDetail)">
+                    <span class="material-icons edit">launch</span> 
+                </button>       
+                <p *ngIf ="productManipulationService.editePhoto == true && productManipulationService.produitCourant == productToDetail">
+                    <input type="file" (change) ="productManipulationService.selectedFile($event)">
+                    <button mat-raised-button color="primary" 
+                        *ngIf="productManipulationService.electFiles != undefined && productManipulationService.uploadBnt==1" 
+                        (click) = "productManipulationService.uploadPhoto()" style="cursor: pointer;">Upload
+                    </button>
+                </p> 
+            </mat-card> 
+            <mat-card class="child-2 maxTailleInfo">
+                        <b>Catégory du produit: </b> <i>{{productToDetail.category.name}}</i><br> 
+                        <b>Description: </b> <i>{{productToDetail.description}}</i><br>
+                        <span *ngIf="productToDetail.promotion"><b> En promotion: </b> <i>Oui</i><br></span>
+                        <span *ngIf="!productToDetail.promotion"><b> En promotion: </b><i>Non</i><br></span>
+                        <span *ngIf="productToDetail.avaible"><b> Dispobilité: </b><i>Disponible en stock</i><br></span>
+                        <span *ngIf="!productToDetail.avaible"><b> Dispobilité: </b><i>En rupture de stock</i><br></span>
+                        <b> Prix: </b><i>{{productToDetail.price}}</i>
+                    <hr>        
+                    <table>              
+                        <tr>
+                        <td *ngIf="productToDetail.promotion">
+                            <img src="../../../assets/images/promo.png" title="promotion">
+                        </td>
+                        <td *ngIf="productToDetail.selected">
+                            <img src="../../../assets/images/favorite.png" title="selectionné">
+                        </td>
+                        <td *ngIf="productToDetail.avaible">
+                            <img src="../../../assets/images/available.png" title="disponible">
+                        </td>
+                        </tr>
+                    </table>
+                    <form #f ="ngForm">
+                        <mat-form-field style="width: 35%;" appearance="fill">
+                            <mat-label>Quantité</mat-label>
+                            <input type="number" matInput name="quantite" min="1" ngModel [(ngModel)]="productToDetail.quantite">
+                        </mat-form-field>&nbsp;
+                        <button mat-button style="cursor: pointer;"
+                            (click) = "productManipulationService.addCard(productToDetail)">
+                            <span class="material-icons"
+                                style="color: #303F9F; font-weight: bold;">
+                                add_shopping_cart
+                            </span>
+                        </button>
+                    </form>  
+            </mat-card>
+            </div>
+        </div>      
+    </mat-card-content>
+</mat-card>
+
+<!-- Part for updating product-->
+
+<mat-card class="product-detail-card" *ngIf="actionToDo ==1 && productToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content>      
+        <div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.md="column">
+            <mat-card class="child-1 maxTailleImage">
+                <img mat-card-image class="imageTaille"
+                    src="{{this.eCommService.host+'/product/photo/'+productToDetail.idproduct+'?ts='+productManipulationService.getTS()}}"
+                    alt="photo du produit"><br>
+                <button mat-button  
+                    (click) = "productManipulationService.editerPhoto(productToDetail)"
+                    title="edit this photo" style="cursor: pointer;">
+                    <span class="material-icons edit">launch
+                    </span>                
+                </button>        
+                <p *ngIf ="productManipulationService.editePhoto == true && productManipulationService.produitCourant == productToDetail">
+                    <input type="file" (change) ="productManipulationService.selectedFile($event)">
+                    <button mat-raised-button color="primary" 
+                        *ngIf="productManipulationService.electFiles != undefined && productManipulationService.uploadBnt==1" 
+                        (click) = "productManipulationService.uploadPhoto()" style="cursor: pointer;">Upload
+                    </button>
+                </p> 
+            </mat-card> 
+            <mat-card class="child-2 maxTailleInfo">
+                  <form #f ="ngForm">
+                    <mat-form-field appearance="fill" class="textAreaTaille">
+                    <mat-label>Choisir la catégory du produit</mat-label>
+                      <mat-select [(ngModel)]="productToDetail.category" name="categ">
+                        <mat-option *ngFor="let catego of categories" [value]="catego">
+                          {{catego.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Nom du produit</mat-label>
+                        <input type="text" matInput ngModel name ="pName"  [(ngModel)]="productToDetail.name">
+                    </mat-form-field>
+                    <!-- If he don't give product name-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!productToDetail.name" style="color: red;"> Product name is required</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Description du produit</mat-label>
+                        <textarea matInput ngModel name="description" [(ngModel)]="productToDetail.description"></textarea>
+                    </mat-form-field>
+                    <!-- If he don't give product description-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!productToDetail.description" style="color: red;"> Product description is required</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Prix</mat-label>
+                        <input type="number" matInput min="1" step="0.001" ngModel name="price" [(ngModel)]="productToDetail.price">
+                    </mat-form-field>
+                    <!-- If he don't give product price-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!productToDetail.price" style="color: red;"> Product price is required<br></span>
+                        <span *ngIf="productToDetail.price < 0" style="color: red;"> Product price must be less than 0</span>
+                    </div>
+
+                    <mat-checkbox ngModel name="promotion"
+                        [(ngModel)]="productToDetail.promotion">En promotion? 
+                    </mat-checkbox> &nbsp;&nbsp;
+                    <mat-checkbox ngModel name="avaible"
+                        [(ngModel)]="productToDetail.avaible">Disponible?
+                    </mat-checkbox> &nbsp;&nbsp;
+                    <mat-checkbox ngModel name="selected"
+                        [(ngModel)]="productToDetail.selected">Selectionné ?
+                    </mat-checkbox>
+                    <hr>
+                    <button mat-button color="primary" 
+                        (click) = "updateOrAddNewProduct(0)" style="cursor: pointer;">Update
+                    </button>  
+                  </form>
+            </mat-card>
+            </div>
+        </div>      
+    </mat-card-content>
+</mat-card>
+
+
+<!-- Part for adding new product-->
+
+<mat-card class="product-detail-card" *ngIf="actionToDo ==2">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" *ngIf ="!isProductAdded" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>&nbsp;
+        <span style="font-size: smaller; color: rgb(252, 104, 104);"><i>Every information about product is require !</i></span>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content>      
+        <div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.md="column">
+            <mat-card class="child-1 maxTailleImage">
+                <img mat-card-image class="imageTaille" src="" alt="Choisissez une photo de ce produit"><br>
+                <button mat-button *ngIf ="isProductAdded && !choosePhotoNow" 
+                    (click) ="goToChoosePhoto()" 
+                    title="Choisissez une photo de ce produit" style="cursor: pointer; background-color: red;">
+                    <mat-icon style="color: white;">add</mat-icon>&nbsp; <span style="color: white;">Photo</span>               
+                </button>        
+                <p>
+                    <input type="file"  *ngIf ="choosePhotoNow" (change) ="productManipulationService.selectedFile($event)">
+                    <button mat-raised-button color="primary" 
+                        *ngIf="productManipulationService.electFiles != undefined && productManipulationService.uploadBnt==1" 
+                        (click) = "addPhotoToNewProduct()" style="cursor: pointer;">Add
+                    </button>
+                </p> 
+            </mat-card> 
+            <mat-card class="child-2 maxTailleInfo">
+                  <form #f ="ngForm">
+                    <mat-form-field appearance="fill" class="textAreaTaille">
+                    <mat-label>Choisir la catégory du produit</mat-label>
+                      <mat-select [(ngModel)]="newProduct.category" name="categ">
+                        <mat-option *ngFor="let catego of categories" [value]="catego">
+                          {{catego.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!-- If he don't choose category-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newProduct.category" style="color: red;"> Catégory is required</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Nom du produit</mat-label>
+                        <input type="text" matInput ngModel name ="pName"  [(ngModel)]="newProduct.name">
+                    </mat-form-field>
+                    <!-- If he don't give product name-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newProduct.name" style="color: red;"> Product name is required</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Description du produit</mat-label>
+                        <textarea matInput ngModel name="description" [(ngModel)]="newProduct.description"></textarea>
+                    </mat-form-field>
+                    <!-- If he don't give product description-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newProduct.description" style="color: red;"> Product description is required</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Prix</mat-label>
+                        <input type="number" matInput min="1" step="0.001" ngModel name="price" [(ngModel)]="newProduct.price">
+                    </mat-form-field>
+                    <!-- If he don't give product price-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newProduct.price" style="color: red;"> Product price is required<br></span>
+                        <span *ngIf="newProduct.price < 0" style="color: red;"> Product price must be less than 0</span>
+                    </div>
+
+                    <mat-checkbox ngModel name="promotion"
+                        [(ngModel)]="newProduct.promotion">En promotion? 
+                    </mat-checkbox> &nbsp;&nbsp;
+                    <mat-checkbox ngModel name="avaible"
+                        [(ngModel)]="newProduct.avaible">Disponible?
+                    </mat-checkbox> &nbsp;&nbsp;
+                    <mat-checkbox ngModel name="selected"
+                        [(ngModel)]="newProduct.selected">Selectionné ?
+                    </mat-checkbox>
+                    <hr>
+                    <button mat-button color="primary" *ngIf ="!isProductAdded"
+                        (click) = "updateOrAddNewProduct(1)" style="cursor: pointer;">Add
+                    </button>  
+                  </form>
+            </mat-card>
+            </div>
+        </div>      
+    </mat-card-content>
+</mat-card>
+
+<!--Part for delete product -->
+<mat-card class="product-detail-card" *ngIf="actionToDo == 3 && productToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>&nbsp;
+        <span style="color: red;"><i>Do you want really to delete this product "{{productToDetail.name}}" ?</i></span>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content>      
+        <div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.md="column">
+            <mat-card class="child-1 maxTailleImage">
+                <img mat-card-image class="imageTaille"
+                    src="{{this.eCommService.host+'/product/photo/'+productToDetail.idproduct+'?ts='+productManipulationService.getTS()}}"
+                    alt="photo du produit"> 
+            </mat-card> 
+            <mat-card class="child-2 maxTailleInfo">
+                        <b>Catégory du produit: </b> <i>{{productToDetail.category.name}}</i><br> 
+                        <b>Description: </b> <i>{{productToDetail.description}}</i><br>
+                        <span *ngIf="productToDetail.promotion"><b> En promotion: </b> <i>Oui</i><br></span>
+                        <span *ngIf="!productToDetail.promotion"><b> En promotion: </b><i>Non</i><br></span>
+                        <span *ngIf="productToDetail.avaible"><b> Dispobilité: </b><i>Disponible en stock</i><br></span>
+                        <span *ngIf="!productToDetail.avaible"><b> Dispobilité: </b><i>En rupture de stock</i><br></span>
+                        <b> Prix: </b><i>{{productToDetail.price}}</i>
+                    <hr>        
+                    <table>              
+                        <tr>
+                        <td *ngIf="productToDetail.promotion">
+                            <img src="../../../assets/images/promo.png" title="promotion">
+                        </td>
+                        <td *ngIf="productToDetail.selected">
+                            <img src="../../../assets/images/favorite.png" title="selectionné">
+                        </td>
+                        <td *ngIf="productToDetail.avaible">
+                            <img src="../../../assets/images/available.png" title="disponible">
+                        </td>
+                        </tr>
+                    </table> <br>
+                    
+                    <button mat-button *ngIf="authenticationService.isAdmin"
+                    title="Delete this product" 
+                    style="cursor: pointer; background-color: red;"
+                    (click) = "deleteNow(productToDetail.idproduct)">
+                    <mat-icon style="color: white;">delete</mat-icon>
+                    </button>
+            </mat-card>
+            </div>
+        </div>      
+    </mat-card-content>
+</mat-card>

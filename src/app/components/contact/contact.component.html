@@ -1,0 +1,47 @@
+
+<mat-card class="contact-card mat-elevation-z12">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+            
+        </button>&nbsp;&nbsp;&nbsp; Contact Us by sending message.
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content>
+                <form #f ="ngForm" (ngSubmit) = "envoyerMessageContact(f.value)">                    
+                        
+                    <mat-form-field class="taille">
+                        <input
+                        matInput
+                        type="email"
+                        pattern="[a-z0-9._%+-]{1,}@[a-z0-9.-]{2,}[.][a-z]{2,}"
+                        placeholder="Email"
+                        required maxlength="254"
+                        name="username"
+                        ngModel
+                        #username="ngModel">
+                        <mat-error *ngIf="username.invalid">votre email est obligatoire</mat-error>
+                    </mat-form-field><br>
+
+                    <mat-form-field class="taille">
+                        <mat-label>Objet du contact</mat-label>
+                        <textarea matInput ngModel name="objet" 
+                            #objet ="ngModel" required maxlength="4047"></textarea>
+                        <mat-error *ngIf="objet.invalid">L'objet du message est obligatoire</mat-error>
+                    </mat-form-field><br>
+
+                    <mat-form-field class="taille">
+                        <mat-label>Votre message</mat-label>
+                        <textarea matInput ngModel name="message" 
+                            #message ="ngModel" required maxlength="4047"></textarea>
+                        <mat-error *ngIf="message.invalid">Le message est obligatoire</mat-error>
+                    </mat-form-field><br>
+                    <hr>
+                    <button mat-button color="primary"
+                        *ngIf="f.valid == true"
+                        type ="submit" style="cursor: pointer;">Envoyer
+                    </button>  
+                </form>
+    </mat-card-content>
+</mat-card>

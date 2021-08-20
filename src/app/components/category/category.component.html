@@ -1,0 +1,133 @@
+<!--Part for detail category-->
+<mat-card class="category-detail-card" *ngIf="actionToDo ==0 && categoryToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Edit this category" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(1)">
+            <span class="material-icons edit">launch</span>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Add new category" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(2)">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Delete this category" 
+            style="cursor: pointer;"
+            (click) = "switchBetweenActions(3)">
+            <mat-icon>delete</mat-icon>
+        </button>&nbsp;
+        {{categoryToDetail.name}}
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content class="maxTailleInfo">      
+        <b>Catégory : </b> <i>{{categoryToDetail.name}}</i><br> 
+        <b>Description : </b> <i>{{categoryToDetail.description}}</i><br>
+        <hr> 
+    </mat-card-content>
+</mat-card>
+
+<!-- Part for updating category-->
+
+<mat-card class="category-detail-card" *ngIf="actionToDo ==1 && categoryToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content class="maxTailleInfo">      
+                  <form #f ="ngForm">
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Nom de la catégory</mat-label>
+                        <input type="text" matInput ngModel name ="cName"  [(ngModel)]="categoryToDetail.name">
+                    </mat-form-field>
+                    <!-- If he don't give category name-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!categoryToDetail.name" style="color: red;"> Nom de la catégory est obligatoire</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Description de la catégory</mat-label>
+                        <textarea matInput ngModel name="description" [(ngModel)]="categoryToDetail.description"></textarea>
+                    </mat-form-field>
+                    <!-- If he don't give category description-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!categoryToDetail.description" style="color: red;">Description de la category est obligatoire</span>
+                    </div>
+                    <hr>
+                    <button mat-button color="primary" 
+                        (click) = "updateOrAddNewCategory(0)" style="cursor: pointer;">Update
+                    </button>  
+                  </form>
+    </mat-card-content>
+</mat-card>
+
+
+<!-- Part for adding new category-->
+
+<mat-card class="category-detail-card " *ngIf="actionToDo ==2">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" *ngIf ="!isCategoryAdded" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>&nbsp;
+        <span style="font-size: smaller; color: rgb(252, 104, 104);"><i>Every information about category is require !</i></span>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content class="maxTailleInfo">      
+                  <form #f ="ngForm">
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Nom de la catégory</mat-label>
+                        <input type="text" matInput ngModel name ="cName"  [(ngModel)]="newCategory.name">
+                    </mat-form-field>
+                    <!-- If he don't give category name-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newCategory.name" style="color: red;">Nom de la catégory est obligatoire</span>
+                    </div>
+
+                    <mat-form-field class="textAreaTaille" appearance="fill">
+                        <mat-label>Description de la catégory</mat-label>
+                        <textarea matInput ngModel name="description" [(ngModel)]="newCategory.description"></textarea>
+                    </mat-form-field>
+                    <!-- If he don't give category description-->
+                    <div *ngIf ="!isDataCorrect">
+                        <span *ngIf="!newCategory.description" style="color: red;"> Description de la catégory</span>
+                    </div>
+                    <hr>
+                    <button mat-button color="primary" *ngIf ="!isCategoryAdded"
+                        (click) = "updateOrAddNewCategory(1)" style="cursor: pointer;">Add
+                    </button>  
+                  </form>
+    </mat-card-content>
+</mat-card>
+
+<!--Part for delete category -->
+<mat-card class="category-detail-card " *ngIf="actionToDo == 3 && categoryToDetail">
+    <mat-card-header>
+      <mat-card-title>
+        <button mat-button title="Go to home page" (click)="goToHomePage()">
+            <mat-icon >keyboard_arrow_left</mat-icon>
+        </button>&nbsp;
+        <span style="color: red;"><i>Do you want really to delete this category "{{categoryToDetail.name}}" ?</i></span>
+      </mat-card-title>      
+    </mat-card-header>
+    <mat-card-content class="maxTailleInfo"> 
+        <b>Catégory: </b> <i>{{categoryToDetail.name}}</i><br> 
+        <b>Description: </b> <i>{{categoryToDetail.description}}</i><br>
+        <hr>                    
+        <button mat-button *ngIf="authenticationService.isAdmin"
+            title="Delete this category" 
+            style="cursor: pointer; background-color: red;"
+            (click) = "deleteNow(categoryToDetail.id)">
+            <mat-icon style="color: white;">delete</mat-icon>
+        </button>       
+    </mat-card-content>
+</mat-card>

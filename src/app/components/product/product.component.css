@@ -1,0 +1,77 @@
+.taille{
+    height: 230px;
+    cursor: pointer;
+}
+.edit{
+    margin-top: 0%;
+    margin-left: 7%;
+    cursor: pointer;
+}
+.barCategory{
+    display: block;
+    width: 100%;
+    margin-right: 1%;
+    /*background: black;*/
+}
+.category{
+    /*background: #32c69a;
+    color: white;*/
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-top: 8px; 
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.dispoPromotion{
+    font-size: 20px;
+    /*color: #32c69a;*/
+    text-transform: uppercase;
+    margin-top: 8px;
+    margin-left: 10px;
+
+}
+.formPosition{
+    display: inline;
+}
+input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
+  }
+  @media screen and (max-width: 760px) {
+    .formPosition input[type=text] {
+      text-align: left;
+      margin-top: 8px;
+      padding: 6px;
+      margin-left: 0;
+    }
+}
+  @media screen and (max-width: 600px) {
+    .formPosition button, .formPosition input[type=text] {
+      /*display: block;*/
+      text-align: left;
+      /*width: 100%;*/
+      margin-top: 8px;
+      padding: 6px;
+      /*color: #32c69a;*/
+      margin-left: 0px;
+      text-align: center;
+    }
+    .category{
+        /*background: #32c69a;
+        color: white;*/
+        text-align: center;
+        font-size: 18px;
+        text-transform: uppercase;
+        /*display: block;*/
+        margin-top: 8px;
+        /*margin-right: 0%; */
+        cursor: pointer;
+        /*width: 100%;*/
+    }
+  }
+
+  
