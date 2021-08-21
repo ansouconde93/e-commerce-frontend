@@ -35,6 +35,10 @@ export class AuthenticationService {
   //get authenticated user token: it is access token 
   public getAuthenticatedUserToken(): any{
     return localStorage.getItem("authenticatedUser");
+  }  
+  //remove authenticated user token: it is access token 
+  public removeAuthenticatedUserToken(): any{
+    return localStorage.removeItem("authenticatedUser");
   }
   // For refresh token
   public generateAccessTokenFromRefreshToken(){
@@ -48,6 +52,10 @@ export class AuthenticationService {
   //get refresh token  
   public getUserRefreshToken(): any{
     return localStorage.getItem("refreshToken");
+  }  
+  //remove refresh token  
+  public removeUserRefreshToken(): any{
+    return localStorage.removeItem("refreshToken");
   }
   /**
    * decoding user access token
