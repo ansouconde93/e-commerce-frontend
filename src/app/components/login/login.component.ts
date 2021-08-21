@@ -78,14 +78,21 @@ export class LoginComponent implements OnInit {
           //save save refresh token in local store
           this.authenticationService.saveRefreshTokenLocalStorage(reponse.headers.get('RefreshToken'));         
           if(this.actionToDo == 1){//when user want to buy product
-            this.caddyService.caddies.get(this.caddyService.currentCaddyName)!.client = user;
-            //resave caddies after changing one caddy client.
-            this.caddyService.saveCaddiesLocalStorage();
-            this.commandeService.commande.client = user;
-            this.commandeService.loadCommandeFromCaddy();
-            this.getOrderContainer();
-            this.client = user;
-            this.mode = 1;// display commande recap
+            this.ecommService.postRessource("/client",user.username)
+              .subscribe(u =>{
+                this.client = u;
+                this.caddyService.caddies.get(this.caddyService.currentCaddyName)!.client = this.client;
+                //resave caddies after changing one caddy client.
+                this.caddyService.saveCaddiesLocalStorage();
+                this.commandeService.commande.client = this.client;
+                this.commandeService.loadCommandeFromCaddy();
+                this.getOrderContainer();            
+                this.mode = 1;// display commande recap
+              }, err =>{
+                alert("Erreur pour faire la commande en ce moment ...");
+                this.route.navigateByUrl("/products");
+              }
+            );
           }else{
              // go to home page after user authentification
             this.route.navigateByUrl("/products");
