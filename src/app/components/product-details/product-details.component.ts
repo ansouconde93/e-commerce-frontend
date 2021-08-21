@@ -21,6 +21,7 @@ export class ProductDetailsComponent implements OnInit {
   choosePhotoNow: boolean = false;
   statusDelete: any;
   isDataCorrect: boolean = true;
+  public dataWaitingControl =0;
 
   constructor(public eCommService: ECommService, 
     public authenticationService: AuthenticationService,
@@ -37,6 +38,7 @@ export class ProductDetailsComponent implements OnInit {
     this.eCommService.getRessource("/product/"+idProduit)
       .subscribe(product =>{
         this.productToDetail = product;
+        this.dataWaitingControl = 1;
         if(this.productToDetail == null){          
         this.router.navigateByUrl("products");
         }
@@ -58,9 +60,11 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   public getCategories(){
+    this.dataWaitingControl =0;
     this.eCommService.getRessource("/categories")
       .subscribe(cats =>{
         this.categories = cats;
+        this.dataWaitingControl = 1;
       }, err=>{
         alert("Error: This product can't edit at the moment !");
         this.router.navigateByUrl("products");
