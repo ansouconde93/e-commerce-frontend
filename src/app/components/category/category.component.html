@@ -1,5 +1,9 @@
+<div *ngIf="dataWaitingControl == 0" style="margin-left: 40%; margin-top: 20%;">
+    <mat-spinner ></mat-spinner>
+</div>
 <!--Part for detail category-->
-<mat-card class="category-detail-card" *ngIf="actionToDo ==0 && categoryToDetail">
+<mat-card class="category-detail-card"
+ *ngIf="actionToDo ==0 && categoryToDetail && dataWaitingControl == 1">
     <mat-card-header>
       <mat-card-title>
         <button mat-button title="Go to home page" (click)="goToHomePage()">
@@ -35,7 +39,8 @@
 
 <!-- Part for updating category-->
 
-<mat-card class="category-detail-card" *ngIf="actionToDo ==1 && categoryToDetail">
+<mat-card class="category-detail-card"
+ *ngIf="actionToDo ==1 && categoryToDetail && dataWaitingControl == 1">
     <mat-card-header>
       <mat-card-title>
         <button mat-button title="Go to home page" (click)="goToHomePage()">
