@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   public client : Client = new Client();
   public paymenCardInfo : Payment = new Payment();
   public middleMode: number = 0;
+  public recurissivityControle = 0;
 
   constructor(private authenticationService: AuthenticationService,
      private route: Router,
@@ -224,8 +225,16 @@ export class LoginComponent implements OnInit {
             this.authenticationService.saveTokenLocalStorage(tokens.authorization);
               //save save refresh token in local store
             this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+            this.recurissivityControle ++;
+            if(this.recurissivityControle <2){
               // restarte geting  method
-            this.getClientByUsername();
+              this.getClientByUsername();
+            }else{
+              this.authenticationService.removeAuthenticatedUserToken();
+              this.authenticationService.removeUserRefreshToken();
+              this.mode = 0;
+              this.actionToDo = 0;
+            }
         }else{// response is null => the next refresh token is null
           this.actionToDo = 0;
         }
