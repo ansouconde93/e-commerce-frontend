@@ -1,4 +1,8 @@
-<mat-card class="product-detail-card" *ngIf="actionToDo ==0 && productToDetail">
+<div *ngIf="dataWaitingControl == 0" style="margin-left: 40%; margin-top: 20%;">
+    <mat-spinner ></mat-spinner>
+  </div>
+<mat-card class="product-detail-card"
+ *ngIf="actionToDo ==0 && productToDetail && dataWaitingControl == 1">
     <mat-card-header>
       <mat-card-title>
         <button mat-button title="Go to home page" (click)="goToHomePage()">
@@ -89,7 +93,8 @@
 
 <!-- Part for updating product-->
 
-<mat-card class="product-detail-card" *ngIf="actionToDo ==1 && productToDetail">
+<mat-card class="product-detail-card"
+ *ngIf="actionToDo ==1 && productToDetail && dataWaitingControl == 1">
     <mat-card-header>
       <mat-card-title>
         <button mat-button title="Go to home page" (click)="goToHomePage()">
@@ -179,7 +184,8 @@
 
 <!-- Part for adding new product-->
 
-<mat-card class="product-detail-card" *ngIf="actionToDo ==2">
+<mat-card class="product-detail-card"
+ *ngIf="actionToDo ==2 && dataWaitingControl == 1">
     <mat-card-header>
       <mat-card-title>
         <button mat-button title="Go to home page" *ngIf ="!isProductAdded" (click)="goToHomePage()">
@@ -308,8 +314,7 @@
                             <img src="../../../assets/images/available.png" title="disponible">
                         </td>
                         </tr>
-                    </table> <br>
-                    
+                    </table> <br>                    
                     <button mat-button *ngIf="authenticationService.isAdmin"
                     title="Delete this product" 
                     style="cursor: pointer; background-color: red;"
