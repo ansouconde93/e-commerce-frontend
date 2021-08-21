@@ -12,7 +12,7 @@ export class AuthenticationService {
 
   public host: string = "https://ecom-application.herokuapp.com";// "http://localhost:3002";
   public isAdmin = false;
-  public username: string ="";
+  public username: any =null;
 
   constructor(private http: HttpClient,
     private router: Router) {
