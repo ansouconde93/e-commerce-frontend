@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.actionToDo = this.activatedRoute.snapshot.params.id; 
     //if client exite
-    if(this.authenticationService.username ==""){
+    if(this.authenticationService.username ==null || this.authenticationService.username == undefined){
       if(this.actionToDo == 1){//when client click on commander buttom      
         this.validedButton = "Suivant";
       }else if(this.actionToDo == 0){//when client click on login buttom
@@ -62,8 +62,7 @@ export class LoginComponent implements OnInit {
     this.tentativeConnexion++;
     let user: Client = new Client();
     user.username = client.username;
-    user.password = client.password;
-    
+    user.password = client.password;    
     user.name = client.name;
     user.phoneNumber = client.phoneNumber;
     user.address = client.address;
