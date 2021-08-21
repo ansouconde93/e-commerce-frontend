@@ -17,6 +17,7 @@ export class ProductComponent implements OnInit {
   public categories: any;
   public categoriesTemp: any;
   public keyword: string = "";
+  public dataWaitingControl =0;
 
   constructor(public eCommService: ECommService, 
     public authenticationService: AuthenticationService,
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
       .subscribe(cats =>{
         this.categories = cats;
         this.categoriesTemp = this.categories;
+        this.dataWaitingControl = 1;
       }, err=>{
         alert("Error: can't read categories !");
         this.router.navigateByUrl("products");
@@ -110,11 +112,13 @@ export class ProductComponent implements OnInit {
    * search product by key word
    */
   public searchProductByKeyWord(){
+    this.dataWaitingControl =0;
     if(this.keyword!=""){
       this.eCommService.getProductsByKeyWord(this.keyword)
         .subscribe(cat =>{
           this.categories = null;
           this.categories = cat;
+          this.dataWaitingControl = 1;
         }, err=>{
           this.categories = this.categoriesTemp;
         }
