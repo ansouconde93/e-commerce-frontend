@@ -46,8 +46,8 @@
  
 @media screen and (max-width: 660px) {
     mat-card {
-        width: 60%;
-        margin: 5% auto;
+        width: 90%;
+        margin: 2% auto;
         display: block;
         border-radius: 8px;
     }
@@ -55,8 +55,8 @@
   
   @media screen and (max-width: 600px) {
     mat-card {
-        width: 80%;
-        /*margin: 10% auto;*/
+        width: 90%;
+        margin: 2% auto;
         display: block;
         border-radius: 8px;
       }
@@ -76,6 +76,7 @@
       }
     
   }
+  
 .recap-card{
     width: 70%;
     margin: 2% auto;

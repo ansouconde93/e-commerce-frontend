@@ -4,6 +4,8 @@
       <mat-toolbar-row *ngIf ="!screenControllerService.ecranXS">
         <a mat-button routerLink ="products"><mat-icon>home</mat-icon>&nbsp;Home</a>      
         <div class="spacer"></div>
+        <a mat-button routerLink ="approbation">Approbation</a>
+        <a mat-button routerLink ="contactus" >Contact Us</a>
         <button mat-button style="cursor: pointer;"
           (click) ="goToCaddyPage()">
           <span class="material-icons"
@@ -11,21 +13,20 @@
             add_shopping_cart
           </span>
         </button>
-        <a mat-button routerLink ="approbation">Approbation</a>
-        <a mat-button routerLink ="contactus" >Contact Us</a>
         <a mat-button routerLink ="login/0"><mat-icon>login</mat-icon></a>
       </mat-toolbar-row>      
       <mat-toolbar-row *ngIf ="screenControllerService.ecranXS" fxLayout="start center" class="rowHeight"> 
         <a mat-button routerLink ="products"><mat-icon>home</mat-icon>&nbsp;Home</a>
         <div class="spacer"></div>
-        <button mat-button style="cursor: pointer;">
+        <a mat-button routerLink ="approbation">Approbation</a>
+        <a mat-button routerLink ="contactus" >Contact</a>
+        <button mat-button style="cursor: pointer;"
+        (click) ="goToCaddyPage()">
           <span class="material-icons"
             style="color: white;">
             add_shopping_cart
           </span>
         </button>
-        <a mat-button>Our licence</a>
-        <a mat-button>Contact</a>
         <a mat-button routerLink ="login/0"><mat-icon>login</mat-icon></a>
       </mat-toolbar-row>
   </mat-toolbar>
