@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
    * mode = 3 => display paied form to give credit card information
    * mode = 4 => display paied informations
    */
-  public mode: number = 0;
+  public mode: number = -1;
   public validedButton: string = "S'inscrire";
   public dataSource: any[] = [];
   public displayedColumns: string[] = ['id', 'name', 'quantite', 'price','remise'];
@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
     this.actionToDo = this.activatedRoute.snapshot.params.id; 
     //if client exite
     if(this.authenticationService.username ==null || this.authenticationService.username == undefined){
+      this.mode = 0;
       if(this.actionToDo == 1){//when client click on commander buttom      
         this.validedButton = "Suivant";
       }else if(this.actionToDo == 0){//when client click on login buttom
