@@ -29,6 +29,7 @@ import { CaddyComponent } from './components/caddy/caddy.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ApprobationComponent } from './components/approbation/approbation.component';
 import { CategoryComponent } from './components/category/category.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CategoryComponent } from './components/category/category.component';
     FormsModule,
     MatBadgeModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     HttpClientModule
   ],
   providers: [],
