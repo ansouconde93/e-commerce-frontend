@@ -305,23 +305,23 @@
           <button mat-raised-button 
             color="primary" (click) ="gotToSaveOrder(0)"
             *ngIf="mode == 1">
-            Confimer la commande
+            Confim order
           </button>
           <button mat-raised-button 
             style="background-color: #16b84e; color: white;" (click) ="gotToPaiedForm()"
             *ngIf="mode == 1">
-            Payer maintenant
+            Paied now
           </button>
           
           <button mat-raised-button 
             color="primary" (click) ="gotToHomePage()"
             *ngIf="mode == 2">
-            Explorer nos nouveaux produits
+            Explore new products
           </button>
           <button mat-raised-button 
             style="background-color: #16b84e; color: white;" (click) ="gotToPaiedForm()"
             *ngIf="mode == 2 && middleMode ==0">
-            Payer maintenant
+            Paied now
           </button>
           <br><br>
       </mat-card-actions>
@@ -406,7 +406,7 @@
                 type="submit"
                 color="primary"
                 class="login-button">
-                Suivant
+                Next
               </button>
               <button
               mat-raised-button *ngIf="mode ==4"
@@ -414,7 +414,7 @@
               (click) ="saveCommande()"
               style="background-color: #16b84e; color: white;"
               class="login-button">
-              Valider le paiement
+              Valid paiement
             </button>
             <br>
           </form>
