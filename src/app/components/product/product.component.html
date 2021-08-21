@@ -1,5 +1,8 @@
   
-<div fxLayout ="row wrap" fxLayoutGap ="16px grid" *ngIf="categories!= null && categories != undefined"> 
+<div *ngIf="dataWaitingControl == 0" style="margin-left: 40%; margin-top: 20%;">
+  <mat-spinner ></mat-spinner>
+</div>
+<div fxLayout ="row wrap" fxLayoutGap ="16px grid" *ngIf="categories!= null && categories != undefined" && dataWaitingControl == 1> 
   <div class="barCategory"> 
     <form class="formPosition">      
       <button mat-button class="dispoPromotion" 
