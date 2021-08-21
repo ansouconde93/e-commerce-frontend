@@ -17,6 +17,7 @@ export class CategoryComponent implements OnInit {
   public newCategory: Category = new Category();
   public isCategoryAdded: boolean = false;
   isDataCorrect: boolean = true;
+  public dataWaitingControl =0;
 
   constructor(public eCommService: ECommService, 
     public authenticationService: AuthenticationService,
@@ -32,6 +33,7 @@ export class CategoryComponent implements OnInit {
     this.eCommService.getRessource("/category/"+idCategory)
       .subscribe(category =>{
         this.categoryToDetail = category;
+        this.dataWaitingControl = 1;
         if(this.categoryToDetail == null){          
         this.router.navigateByUrl("products");
         }
@@ -82,6 +84,7 @@ export class CategoryComponent implements OnInit {
   }
  
 public updateOrSaveCategory(category: Category){
+  this.dataWaitingControl = 0;
   this.eCommService.postRessource("/category/save",category)!
     .subscribe(categ =>{
       console.log(this.categoryToDetail);
@@ -90,8 +93,8 @@ public updateOrSaveCategory(category: Category){
         //this is for just added functionnality
       this.isCategoryAdded = true;
       this.actionToDo = 0;
-    }, err=>{//access token is expired or not valid, refresh it immediatly by using refresh token
-        
+      this.dataWaitingControl = 1;
+    }, err=>{//access token is expired or not valid, refresh it immediatly by using refresh token        
         //Verify if user need to subscrib before that means if user have refresh token
         if(this.authenticationService.getUserRefreshToken() != null &&
           this.authenticationService.getUserRefreshToken() != undefined){
@@ -124,8 +127,7 @@ public updateOrSaveCategory(category: Category){
   public deleteNow(idCategory: number){
     this.eCommService.deleteRessource("/category/delete/"+idCategory)!.subscribe(response =>{
       this.router.navigateByUrl("products");      
-    }, err=>{//access token is expired or not valid, refresh it immediatly by using refresh token
-                
+    }, err=>{//access token is expired or not valid, refresh it immediatly by using refresh token                
         //Verify if user need to subscrib before that means if user have refresh token
         if(this.authenticationService.getUserRefreshToken() != null &&
           this.authenticationService.getUserRefreshToken() != undefined){
