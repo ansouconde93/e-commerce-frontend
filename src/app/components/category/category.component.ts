@@ -18,6 +18,7 @@ export class CategoryComponent implements OnInit {
   public isCategoryAdded: boolean = false;
   isDataCorrect: boolean = true;
   public dataWaitingControl =0;
+  public recurissivityControle = 0;
 
   constructor(public eCommService: ECommService, 
     public authenticationService: AuthenticationService,
@@ -101,12 +102,20 @@ public updateOrSaveCategory(category: Category){
             this.authenticationService.generateAccessTokenFromRefreshToken()
               .subscribe(tokens =>{
             if(tokens!=null && tokens != undefined){
-              //save user access token in local storage
-              this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-              //save save refresh token in local store
-              this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-              // restarte save order method
-              this.updateOrSaveCategory(category);
+              this.recurissivityControle ++;
+              if(this.recurissivityControle <2){
+                //save user access token in local storage
+                this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                //save save refresh token in local store
+                this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                // restarte save updateOrSaveCategory method
+                this.updateOrSaveCategory(category);
+              }else{
+                this.authenticationService.removeAuthenticatedUserToken();
+                this.authenticationService.removeUserRefreshToken();
+                this.recurissivityControle=0;
+                this.router.navigateByUrl("/login/0");
+              }
             }else{// response is null => the next refresh token is null          
               this.router.navigateByUrl("/login/0");
             }
@@ -120,9 +129,7 @@ public updateOrSaveCategory(category: Category){
       }
     }
   );
-}
-
-  
+} 
   //delete now
   public deleteNow(idCategory: number){
     this.eCommService.deleteRessource("/category/delete/"+idCategory)!.subscribe(response =>{
@@ -134,12 +141,20 @@ public updateOrSaveCategory(category: Category){
             this.authenticationService.generateAccessTokenFromRefreshToken()
             .subscribe(tokens =>{
               if(tokens!=null && tokens != undefined){
-                //save user access token in local storage
-                this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-                //save save refresh token in local store
-                this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-                // restarte delete method
-                this.deleteNow(idCategory);
+                this.recurissivityControle ++;
+                if(this.recurissivityControle <2){
+                  //save user access token in local storage
+                  this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                  //save save refresh token in local store
+                  this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                  // restarte delete method
+                  this.deleteNow(idCategory);
+                }else{
+                  this.authenticationService.removeAuthenticatedUserToken();
+                  this.authenticationService.removeUserRefreshToken();
+                  this.recurissivityControle=0;
+                  this.router.navigateByUrl("/login/0");
+                }
               }else{// response is null => the next refresh token is null          
                 this.router.navigateByUrl("/login/0");
               }
