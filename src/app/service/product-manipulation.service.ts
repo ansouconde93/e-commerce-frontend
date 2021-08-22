@@ -19,6 +19,7 @@ export class ProductManipulationService {
   public uploadBnt= 0;
   public timeStand: any;
   public produitQuantite: Product = new Product();
+  public recurissivityControle = 0;
 
   constructor(public eCommService: ECommService,
     private caddyService: CaddyService, 
@@ -66,12 +67,20 @@ export class ProductManipulationService {
             this.authenticationService.generateAccessTokenFromRefreshToken()
               .subscribe(tokens =>{
                 if(tokens!=null && tokens != undefined){
-                  //save user access token in local storage
-                  this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-                  //save save refresh token in local store
-                  this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-                  // restarte upload photo method
-                  this.uploadPhoto();
+                  this.recurissivityControle ++;
+                  if(this.recurissivityControle <2 ){
+                    //save user access token in local storage
+                    this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                    //save save refresh token in local store
+                    this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                    // restarte upload photo method
+                    this.uploadPhoto();
+                  }else{
+                    this.authenticationService.removeAuthenticatedUserToken();
+                    this.authenticationService.removeUserRefreshToken();
+                    this.recurissivityControle = 0;
+                    this.router.navigateByUrl("/login/0");
+                  }
                 }else{// response is null => the next refresh token is null          
                   this.router.navigateByUrl("/login/0");
                 }
