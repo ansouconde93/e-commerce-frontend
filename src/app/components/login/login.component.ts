@@ -132,8 +132,7 @@ export class LoginComponent implements OnInit {
       let role: Roles = new Roles();
       role.nomrole="admin";
       this.client.roles.push(role);
-    }
-    if(client.roleUser == false && client.roleAdmin == false){
+    }else{
       let role: Roles = new Roles();
       role.nomrole="user";
       this.client.roles.push(role);
@@ -251,6 +250,7 @@ export class LoginComponent implements OnInit {
         this.mode = 0;
         this.actionToDo = 0;
       } 
+
       }
     );      
   }
