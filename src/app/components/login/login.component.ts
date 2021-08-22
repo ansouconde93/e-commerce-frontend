@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
    * mode = 3 => display paied form to give credit card information
    * mode = 4 => display paied informations
    */
-  public mode: number = 0;
+  public mode: number = -1;
   public validedButton: string = "S'inscrire";
   public dataSource: any[] = [];
   public displayedColumns: string[] = ['id', 'name', 'quantite', 'price','remise'];
@@ -47,12 +47,12 @@ export class LoginComponent implements OnInit {
     this.actionToDo = this.activatedRoute.snapshot.params.id; 
     //if client exite
     if(this.authenticationService.username ==""){
+      this.mode = 0;
       if(this.actionToDo == 1){//when client click on commander buttom      
-        this.validedButton = "Suivant";
+        this.validedButton = "Next";
       }else if(this.actionToDo == 0){//when client click on login buttom
         this.validedButton ="S'inscrire";
       }else{//not a needed route
-        this.mode = -1;
         this.route.navigateByUrl("/products");
       }
     }else{
@@ -64,7 +64,8 @@ export class LoginComponent implements OnInit {
     this.tentativeConnexion++;
     let user: Client = new Client();
     user.username = client.username;
-    user.password = client.password;    
+    user.password = client.password;
+    
     user.name = client.name;
     user.phoneNumber = client.phoneNumber;
     user.address = client.address;
@@ -90,7 +91,7 @@ export class LoginComponent implements OnInit {
                 this.getOrderContainer();            
                 this.mode = 1;// display commande recap
               }, err =>{
-                alert("Erreur pour faire la commande en ce moment ...");
+                alert("Erreur pour commander en ce moment ...");
                 this.route.navigateByUrl("/products");
               }
             );
@@ -221,17 +222,18 @@ export class LoginComponent implements OnInit {
       this.authenticationService.generateAccessTokenFromRefreshToken()
         .subscribe(tokens =>{
           if(tokens!=null && tokens != undefined){
-            //save user access token in local storage
-            this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-              //save save refresh token in local store
-            this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
             this.recurissivityControle ++;
             if(this.recurissivityControle <2){
+              //save user access token in local storage
+              this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                //save save refresh token in local store
+              this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
               // restarte geting  method
               this.getClientByUsername();
             }else{
               this.authenticationService.removeAuthenticatedUserToken();
               this.authenticationService.removeUserRefreshToken();
+              this.recurissivityControle =0;
               this.mode = 0;
               this.actionToDo = 0;
             }
@@ -248,7 +250,6 @@ export class LoginComponent implements OnInit {
       } 
 
       }
-    );
-      
+    );      
   }
 }
