@@ -238,17 +238,19 @@ export class LoginComponent implements OnInit {
               this.actionToDo = 0;
             }
         }else{// response is null => the next refresh token is null
+          this.mode = 0;
           this.actionToDo = 0;
         }
       }, err =>{// refresh token is not valid 
+        this.mode = 0;
         this.actionToDo = 0;
       }
       );
       }else{
         //if user never subscrib then redirect it to login form
+        this.mode = 0;
         this.actionToDo = 0;
       } 
-
       }
     );      
   }
