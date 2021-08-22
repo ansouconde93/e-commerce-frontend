@@ -22,6 +22,7 @@ export class ProductDetailsComponent implements OnInit {
   statusDelete: any;
   isDataCorrect: boolean = true;
   public dataWaitingControl =0;
+  public recurissivityControle = 0;
 
   constructor(public eCommService: ECommService, 
     public authenticationService: AuthenticationService,
@@ -121,12 +122,20 @@ public updateOrSaveProduct(product: Product){
             this.authenticationService.generateAccessTokenFromRefreshToken()
               .subscribe(tokens =>{
             if(tokens!=null && tokens != undefined){
-              //save user access token in local storage
-              this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-              //save save refresh token in local store
-              this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-              // restarte save order method
-              this.updateOrSaveProduct(product);
+              this.recurissivityControle ++;
+              if(this.recurissivityControle <2){
+                //save user access token in local storage
+                this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                //save save refresh token in local store
+                this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                // restarte save order method
+                this.updateOrSaveProduct(product);
+              }else{
+                this.authenticationService.removeAuthenticatedUserToken();
+                this.authenticationService.removeUserRefreshToken();
+                this.recurissivityControle =0;
+                this.router.navigateByUrl("/login/0");
+              }
             }else{// response is null => the next refresh token is null          
               this.router.navigateByUrl("/login/0");
             }
@@ -167,12 +176,20 @@ public updateOrSaveProduct(product: Product){
             this.authenticationService.generateAccessTokenFromRefreshToken()
             .subscribe(tokens =>{
               if(tokens!=null && tokens != undefined){
-                //save user access token in local storage
-                this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-                //save save refresh token in local store
-                this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-                // restarte delete method
-                this.deleteNow(idProduit);
+                this.recurissivityControle ++;
+                if(this.recurissivityControle <2){
+                  //save user access token in local storage
+                  this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                  //save save refresh token in local store
+                  this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                  // restarte delete method
+                  this.deleteNow(idProduit);
+                }else{
+                  this.authenticationService.removeAuthenticatedUserToken();
+                  this.authenticationService.removeUserRefreshToken();
+                  this.recurissivityControle =0;
+                  this.router.navigateByUrl("/login/0");
+                }
               }else{// response is null => the next refresh token is null          
                 this.router.navigateByUrl("/login/0");
               }
@@ -188,4 +205,3 @@ public updateOrSaveProduct(product: Product){
     );
   }
 }
-
