@@ -11,6 +11,7 @@ import { ECommService } from './eComm.service';
 export class CommandeService {
 
   public commande: Commande = new Commande();
+  public recurissivityControle = 0;
 
   constructor(private caddyService: CaddyService,
     private eCommService: ECommService,
@@ -70,12 +71,20 @@ export class CommandeService {
           this.authenticationService.generateAccessTokenFromRefreshToken()
               .subscribe(tokens =>{
                 if(tokens!=null && tokens != undefined){
-                  //save user access token in local storage
-                  this.authenticationService.saveTokenLocalStorage(tokens.authorization);
-                  //save save refresh token in local store
-                  this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
-                  // restarte save order method
-                  this.SaveOrder(action);
+                  this.recurissivityControle ++;
+                  if(this.recurissivityControle < 2){
+                    //save user access token in local storage
+                    this.authenticationService.saveTokenLocalStorage(tokens.authorization);
+                    //save save refresh token in local store
+                    this.authenticationService.saveRefreshTokenLocalStorage(tokens.refreshToken);
+                    // restarte save order method: recurssivity
+                    this.SaveOrder(action);
+                  }else{
+                    this.authenticationService.removeAuthenticatedUserToken();
+                    this.authenticationService.removeUserRefreshToken();
+                    this.recurissivityControle =0;
+                    this.router.navigateByUrl("/login/0");
+                  }
                 }else{// response is null => the next refresh token is null          
                   this.router.navigateByUrl("/login/0");
                 }
