@@ -24,8 +24,7 @@ export class ECommService {
     return this.http.post<any>(this.host+url, ressources,{
       headers: new HttpHeaders(
         {
-          'Authorization':token,
-          'mode': 'no-cors'
+          'Authorization':token
         }
       )
     });
