@@ -24,7 +24,6 @@ export class ECommService {
     return this.http.post<any>(this.host+url, ressources,{
       headers: new HttpHeaders(
         {
-          'Access-Control-Allow-Origin': '*',
           'Authorization':token
         }
       )
