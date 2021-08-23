@@ -24,7 +24,7 @@ export class ECommService {
     return this.http.post<any>(this.host+url, ressources,{
       headers: new HttpHeaders(
         {
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': 'https://ecom-user-interface.herokuapp.com/',
           'Authorization':token
         }
       )
