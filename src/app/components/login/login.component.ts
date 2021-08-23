@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.actionToDo = this.activatedRoute.snapshot.params.id; 
     //if client exite
-    if(this.authenticationService.username ==""){
+    if(this.authenticationService.username == null || this.authenticationService.username == undefined){
       this.mode = 0;
       if(this.actionToDo == 1){//when client click on commander buttom      
         this.validedButton = "Next";
@@ -123,20 +123,9 @@ export class LoginComponent implements OnInit {
     this.client.zipCode = client.zipCode;
     this.client.username = client.username;
     this.client.password = client.password;
-    if(client.roleUser == true){
-      let role: Roles = new Roles();
-      role.nomrole="user";
-      this.client.roles.push(role);
-    }
-    if(client.roleAdmin == true){
-      let role: Roles = new Roles();
-      role.nomrole="admin";
-      this.client.roles.push(role);
-    }else{
-      let role: Roles = new Roles();
-      role.nomrole="user";
-      this.client.roles.push(role);
-    }
+     let role: Roles = new Roles();
+     role.nomrole="user";
+     this.client.roles.push(role);
     //save client
     this.ecommService.postClient("/client/save",this.client)
       .subscribe(clt =>{
