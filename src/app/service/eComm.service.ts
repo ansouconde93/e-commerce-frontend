@@ -26,7 +26,7 @@ export class ECommService {
         {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-          'Origin':'https://ecom-user-interface.herokuapp.com'
+          'Origin':'https://ecom-user-interface.herokuapp.com',
           'Access-Control-Allow-Headers': 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization',
           'Access-Control-Expose-Headers': 'Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Authorization,RefreshToken',
           'Authorization':token
