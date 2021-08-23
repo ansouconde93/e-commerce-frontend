@@ -188,11 +188,6 @@
                 <mat-icon matSuffix>lock</mat-icon>
               </mat-form-field>
 
-              <mat-checkbox *ngIf="actionToDo == 0" ngModel name="roleUser" >Client ?
-              </mat-checkbox>
-              <mat-checkbox *ngIf="actionToDo == 0" ngModel name="roleAdmin">Administrateur ?
-              </mat-checkbox>
-
                 <button
                   mat-raised-button
                   *ngIf="client.valid==true && client.value.password == client.value.repassword"
