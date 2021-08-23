@@ -24,10 +24,10 @@ export class ECommService {
     return this.http.post<any>(this.host+url, ressources,{
       headers: new HttpHeaders(
         {
-          'Access-Control-Allow-Origin', '*',
-          'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE',
-          'Access-Control-Allow-Headers','Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization',
-          'Access-Control-Expose-Headers','Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Authorization,RefreshToken',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+          'Access-Control-Allow-Headers': 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization',
+          'Access-Control-Expose-Headers': 'Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Authorization,RefreshToken',
           'Authorization':token
         }
       )
