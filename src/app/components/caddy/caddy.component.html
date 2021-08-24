@@ -99,10 +99,10 @@
 
     <mat-card-actions>
         <button mat-raised-button color="primary" 
-        *ngIf="!isCurrentCaddyPaied() && caddyService.caddies.get(caddyService.currentCaddyName)"
+        *ngIf="!isCurrentCaddyPaied() && caddyService.caddies.get(caddyService.currentCaddyName) && caddyService.caddies.get(this.caddyService.defaultCaddyName)"
         (click) ="nouveauCommande()">Order</button>
         <button mat-raised-button color="accent" 
-        *ngIf="caddyService.caddies.get(caddyService.currentCaddyName)"
+        *ngIf="caddyService.caddies.get(caddyService.currentCaddyName) && caddyService.caddies.get(this.caddyService.defaultCaddyName)"
          (click) ="deleteCurentCaddy()"
           style="cursor: pointer;">Delete
         </button>
