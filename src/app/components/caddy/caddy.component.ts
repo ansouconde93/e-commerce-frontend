@@ -121,7 +121,7 @@ export class CaddyComponent implements OnInit {
    * verified if current caddy is paied
    */
   public isCurrentCaddyPaied(): boolean{
-    if(this.caddyService.caddies){
+    if(this.caddyService.caddies.get(this.caddyService.currentCaddyName)){
      return this.caddyService.caddies.get(this.caddyService.currentCaddyName)!.paied;
     }
     return false;
