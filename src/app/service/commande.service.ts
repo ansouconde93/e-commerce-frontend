@@ -12,6 +12,8 @@ export class CommandeService {
 
   public commande: Commande = new Commande();
   public recurissivityControle = 0;
+  //variable for waiting order id from data base using subscrib method
+  public dataWaitingControl = 0;
 
   constructor(private caddyService: CaddyService,
     private eCommService: ECommService,
@@ -62,6 +64,7 @@ export class CommandeService {
           if(action ==1 || action == 2){
             this.caddyService.caddies.get(this.caddyService.currentCaddyName)!.paied = true;
             this.caddyService.saveCaddiesLocalStorage();
+            this.dataWaitingControl = 1;
           }
         }
       }, err =>{//access token is expired or not valid, refresh it immediatly by using refresh token
