@@ -15,6 +15,7 @@ export class CaddyComponent implements OnInit {
   public totalOfAllNoPaiedCaddies = 0;
   public totalOfAllPaiedCaddies = 0;
   public productToDelete: any[] = [];
+  public currentCadyIsNull = true;
 
   constructor(public caddyService: CaddyService,
     private router: Router) { }
@@ -23,6 +24,10 @@ export class CaddyComponent implements OnInit {
     this.getCaddiesName();
     this.getCurrentCaddy();
     this.getTotalOfAllNoPaiedCaddies();
+    if(this.caddyService.caddies.get(this.caddyService.currentCaddyName) ||
+    this.caddyService.caddies.get(this.caddyService.defaultCaddyName)){
+      this.currentCadyIsNull = false;
+    }
   }
 
   public goToHomePage(){
